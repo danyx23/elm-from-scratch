@@ -6,7 +6,7 @@ Before we start working on our example and dive into Elm, let's set up all the t
 Elm itself
 ----------
 
-The first thing you need is the elm compiler itself. Download the version for your operating system and install it (at the time of writing this, Elm version 0.17 is the current version - this is also the version all examples will use). If everything went well you should be able to open a terminal (on osx/linux) or cmd window (on windows) and enter `elm repl` and should be presented with a prompt. You can exit with Ctrl+d. If you get an error, elm was probably not added to your path correctly. If it persists after restarting, google how to add stuff to your path in your OS and add the path of the bin subdirectory of your elm installation.
+The first thing you need is the elm compiler itself. Download the version for your operating system and install it (at the time of writing this, Elm version 0.17 is the current version - this is also the version all examples will use). If everything went well you should be able to open a terminal (on osx/linux) or cmd window (on windows) and enter `elm repl` and should be presented with a prompt. You can exit with Ctrl+d. If you get an error, elm was probably not added to your path correctly. If it persists after restarting, google how to add stuff to your path in your OS and add the path of the bin subdirectory of your elm installation or ask for help on the Elm Slack in the beginner channel.
 
 An editor
 ---------
@@ -31,31 +31,12 @@ To get started, create a new directory and then run the following to install the
 elm package install elm-lang/core
 ```
 
-Obsolete content - gettings started from minimal repo
-------------------------------------------------------
-A minimal web application consists of a html file the provides the initial DOM scaffold and an Elm file that will be compiled by the Elm compiler to a javascript file. The html file will reference the generated javascript file so that our code can be executed and our styles be used.
-
-I have created a small starter package for our app that you can clone like so:
-```bash
-git clone ...
-```
-
-Let's have a look at what it contains:
-```
-.gitignore
-package.json
-movie-search.html
-MovieSearch.elm
-```
-
-The .gitignore file contains a line to tell git to ignore the elm-stuff directory that will be created when we use the elm compiler. MovieSearch.elm is empty so far and is the file we will be working on. package.json contains instruction about which packages elm should install for us. Finally, movie-search.html is a bit of HTML scaffold that references the MovieSearch.js file that we will generate shortly. Note that the elm file itself is not referenced since a browser can only work with the generated javascript file, not the Elm file itself.
-
 Creating your first Elm file
 ----------------------------
 
-To finish our setup, we now need to add some content to our Elm file and compile it. Add this code into MovieSearch.elm (using the editor you have setup for Elm):
+To finish our setup, we now need to add some content to our Elm file and compile it. Add this code into Main.elm (using the editor you have setup for Elm):
 
-```Elm
+```elm
 import Html exposing (text)
 
 main =
