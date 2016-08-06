@@ -43,22 +43,36 @@ main =
   text "Hello from the MovieSearch app!"
 ```
 
-Nice! Now compile it from the command line at your project directory with
-```bash
-elm make MovieSearch.elm -o MovieSearch.js
-```
+Nice! There are now two ways to play with this. One is `elm reactor`, the on-the fly compilation tool of Elm. If you fire it up you can then open a browser and point it to `http://localhost:8000` and open Main.elm and see your text. Reactor has live reloading, so if you change the text in the Main.elm and save you should see it update automatically in reactor.
 
-You should get an error message like this:
-```
-Could not find module Html
-```
-
-This tells us that we have not yet installed the necessary modules. Let's do that, using the elm package manager:
+If you want to publish your work on a webserver though, you need some way to create a javascript file from your Elm code that you can include in your html file or include with a server side programming language. In this case, you want to use `elm make` to create a javascript file with a given name, like so:
 
 ```bash
-elm package install
+elm make Main.elm -o MovieSearch.js
 ```
 
-And try the compile command again. Now it should work and generate a MovieSearch.js file for you. Open movie-search.html in a browser (just double click the file) and verify that you see our greeting message from above in your browser.
+It should work and generate a MovieSearch.js file for you. Now, create a file called  MovieSearch.html and paste the following barebones HTML content in there that references our generated javascript file:
+
+```html
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8">
+   <title>Elm movie domino</title>
+ </head>
+ <body>
+   <div class="container">
+     <div id="moviedomino"></div>
+   </div>
+ </body>
+ <script src="elm-movie-domino.js"></script>
+ <script>
+   var node = document.getElementById('moviedomino');
+   var app = Elm.MovieDomino.embed(node);
+ </script>
+</html>
+```
+
+Now open the MovieSearch.html file in a browser (just double click the file) and verify that you see our greeting message from above in your browser.
 
 Excellent progress! In the next chapter we will look at functions in Elm and soon after that we will start to create a little application to search for movie actors using a web service. Onwards!
