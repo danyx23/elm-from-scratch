@@ -19,7 +19,9 @@ main =
 	Html.text "Hello from the MovieSearch app!"
 ```
 
-Both pieces of code do exactly the same: they define a function `main` that takes no arguments and evaluates to a value that represents the text "Hello from the MovieSearch app!". If you know other programming languages, you may note that there is no "return" statement. We will see this in more detail soon, but functions in Elm basically always consist of a single statement that defines the output of this function. There is of course a way to have intermediate steps, but as we will see there is still only ever a single statement that defines what the return value of a function is.
+Both pieces of code do exactly the same: they define a function `main` that takes no arguments and evaluates to a value that represents the text "Hello from the MovieSearch app!". 
+
+If you know other programming languages, you may note that there is no "return" statement. We will see this in more detail soon, but functions in Elm basically always consist of a single statement that defines the output of this function. There is of course a way to have intermediate steps, but as we will see there is still only ever a single statement that defines what the return value of a function is.
 
 Every Elm program needs a function called `main` so Elm knows where to start your program.
 
@@ -44,9 +46,9 @@ Comments
 --------
 
 There are two and a half kinds of comments in Elm.
-* Line comments, that start with -- and include everything after that.
-* Block comments, that include everything within {- and -}, regardless of line breaks extract
-* Documentation block comments, that are work like block comments but are stated as {|- and -}. The single documentation block comment before every top level function or similar will be picked up by elm package as part of the documentation that will be generated for public elm packages.
+* Line comments, that start with -- and include everything after that until the line break.
+* Block comments, that include everything within {- and -}, regardless of line breaks
+* Documentation block comments, that work like block comments but are stated as {-| and -}. The single documentation block comment before every top level definition will be picked up by elm package as part of the documentation that will be generated for public elm packages.
 
 ```Elm
 -- a line comment
@@ -57,15 +59,19 @@ main = -- another line comment
 {- a block comment
 	that spans
 	multiple lines.
-	* this is
+{-| documentation for the function hello
+  * this is
   * a bullet list
-	You can use `markdown` here -}
+
+  You can use `markdown` here 
+-}
+hello : String -> String
+hello name =
+    -- hello implementation
 ```
 
 Importing modules
 -----------------
-
-Because the import statement in the example above only imports the module 'Html' but does not make use of the `exposing ()` clause, we have to write to reference to the `Html a` type inside the `Html` module as `Html.Html a`. If you were to change the import statement to `import Html exposing (Html, text)` in the example above, you could drop the `Html.` part of both the reference to the type `Html a` and the text function.
 
 Let's try something else and see what happens if you take the `text` function away and try to return our message directly:
 
