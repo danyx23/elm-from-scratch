@@ -19,7 +19,7 @@ main =
 	Html.text "Hello from the MovieSearch app!"
 ```
 
-Both pieces of code do exactly the same: they define a function `main` that takes no arguments and evaluates to a value that represents the text "Hello from the MovieSearch app!". 
+Both pieces of code do exactly the same: they define a function `main` that takes no arguments and evaluates to a value that represents the text "Hello from the MovieSearch app!".
 
 If you know other programming languages, you may note that there is no "return" statement. We will see this in more detail soon, but functions in Elm basically always consist of a single statement that defines the output of this function. There is of course a way to have intermediate steps, but as we will see there is still only ever a single statement that defines what the return value of a function is.
 
@@ -59,11 +59,13 @@ main = -- another line comment
 {- a block comment
 	that spans
 	multiple lines.
+-}
+
 {-| documentation for the function hello
   * this is
   * a bullet list
 
-  You can use `markdown` here 
+  You can use `markdown` here
 -}
 hello : String -> String
 hello name =
