@@ -149,7 +149,7 @@ If you are coming from a traditional imperative language, you may think of what 
 
 Elm comes from a family of languages descending from ML that goes back to the 70ies and represented a pretty significant shift in how to write programs. Instead of trying to express the execution the computer will perform directly, it models computation more along the lines of how mathematical equations are written down - as a series of equivalences.
 
-This may seem like nit-picking, but here is how someone who knows functional languages well would describe this program: "We defined two top level values, main and salutation. Main is a value of type Html a. It evaluates to the result of applying the function text to the argument salutation. Salutation is a value of type string."
+This may seem like nit-picking, but here is how someone with a background in functional languages would describe this program: "We defined two top level values, main and salutation. Main is a value of type Html a. It evaluates to the result of applying the function text to the argument salutation. Salutation is a value of type string."
 
 The difference in terminology ("apply a function to it's arguments" vs "call a function") is not that important for now, but notice that we didn't describe salutation as a function in the second paragraph. What we defined is just a named value of type string - not a function! This is an important concept (but don't worry if it will only fully "click" later): The definitions you give in Elm are always either named values (if they have no arguments, like here), or functions (if they do take arguments), or type definitions (we'll explore those in the next chapter). Let's finally get around to creating a function then!
 
@@ -165,7 +165,7 @@ main =
 	text (salutation "John")
 ```
 
-Ok, the first thing you will notice is that the type annotation for salutation changed. It is now "String -> String". The arrow separates the individual arguments from each other and the return type (the return type is always the last thing in the list). You would read this as "salutation is a function that takes a string and returns a string".
+Ok, the first thing you will notice is that the type annotation for salutation changed. It is now "String -> String". In general, the arrow separates the individual arguments from each other and the return type and it signals that this is a function (the return type is always the last thing in the list). In this case there is one arrow so, so it is a function that takes one argument. You would read this as "salutation is a function that takes a string and returns a string".
 
 The definition in the next line changed too - it is now "salutation name = ". This is how you define arguments. Salutation is now a function that takes one argument and it gives it the identifier "name".
 
@@ -176,7 +176,7 @@ Finally, we changed the definition of main a little by passing an argument to th
 Function application with multiple arguments
 --------------------------------------------
 
-The thing is, function application (function calls in imperative lingo) of a function `fn` with three arguments `a`, `b` and `c` looks like this in elm:
+The thing is, function application (function calls as they are called in imperative languages) of a function `fn` with three arguments `a`, `b` and `c` looks like this in elm:
 ```Elm
 fn a b c
 
@@ -184,14 +184,15 @@ fn a b c
 -- fn(a, b, c)
 ```
 
-If `a` should now be another function application of a function `fn2` with argument `x`, we can't write this:
+If `a` should now be another function application of a function `fn2` with argument `x`, we *can't* write this:
+
 ```Elm
 fn fn2 x b c
 
 -- python equivalent:
 -- fn(fn2, x, b, c)
 ```
-because Elm would think we want to call function fn with 4 arguments: the first one being the function `fn`, then `x`, `b` and `c`. Functions are "first class citizens" in Elm, i.e. they are just another kind of value and can be passed in parameters if you like (we will later see how powerful this can be). But in this case, this is not what we intended.
+because Elm would think we want to call function `fn` with 4 arguments: the first one being the function `fn2`, then `x`, `b` and `c`. Functions are "first class citizens" in Elm, i.e. they are just another kind of value and can be passed as parameters if you like (we will later see how powerful this can be). But in this case, this is not what we intended.
 
 Instead we have to use parenthesis to tell Elm "evaluate the content inside these parenthesis first, then use it as a single argument"
 ```Elm
@@ -201,7 +202,7 @@ fn (fn2 x) b c
 -- fn(fn2(x), b, c)
 ```
 
-So just to wrap this up, if you get rid of the parenthesis, you will get a compile error because Elm will think you want to call the function `text` with two parameters, a function and a string, but this doesn't fit the definition of `text`which just takes a single argument.
+So just to wrap this up, if you get rid of the parenthesis, you will get a compile error because Elm will think you want to call the function `text` with two parameters, a function and a string, but this doesn't fit the definition of `text` which just takes a single parameter.
 
 Our example program will be concerned with searching for actors and movies, so let's define another function that takes a movie title and the year of it's release and turns both into a string in the form "The Movie Title (1999)". The movie title will be of type String, the year of type Int (for Integer numbers). Let's give it a try:
 
@@ -236,13 +237,13 @@ Operators
 -- somewhere in the Elm base library code:
 (++) : List a -> List a -> List a
 (++) list1 list2 =
-	-- implementation of concat
+	-- implementation of the ++ operator
 ```
-It is the operator Elm uses to concatenate two lists, regardless of what the content of those lists is. Here you see that operators are just functions with exactly two parameters in elm, where the name of the operator consists of non-letter characters. When *using* an operator (like + for addition or ++ for concat), you do not use parenthesis around the operator. When *defining* it, or importing it explicitly, or passing it to a function, you wrap the operator in parenthesis, like in the fake definition above.
+It is the operator Elm uses to concatenate two lists, regardless of what the content of those lists is. Here you see that operators are just functions with exactly two parameters in Elm, where the name of the operator consists of non-letter characters. When *using* an operator (like + for addition or ++ for concat), you do not use parenthesis around the operator. When *defining* it, or importing it explicitly, or passing it to a function, you wrap the operator in parenthesis, like in the fake definition above.
 
-Back to the problem at hand - the type definition for both the first and the second argument is `List a`. We will go into more detail about this in the next chapter, but the type `List` is defined with a "type variable", i.e. it is a `List` of some values of a type that will be defined later, for now called `a`. Because the same variable `a` is used in both the first and the second argument, both arguments have to be Lists of the same type. The type `String` is really just a shorthand in Elm for `List Char`, i.e. a List of Characters.
+Back to the problem at hand - the type definition for both the first and the second argument is `List a`. We will go into more detail about this in the next chapter, but the type `List` is defined with a "type variable", i.e. it is a `List` of some values of a type that will be defined later, for now called `a`. Because the same variable `a` is used in both the first and the second argument, both arguments have to be Lists of the same type. (By the way, the type `String` is really just a shorthand in Elm for `List Char`, i.e. a List of Characters)
 
-That is why, when we use the ++ operator to concatenate a string with something else, Elm demands that something else to also be a `List Char` (= `String`). So we could either change how we store the year and pass it in as a `String` so that we can concat strings easily, or we find a way to turn an `Int` into a `String`. The first way may look easier, but it might be quite annoying later on when we want to e.g. calculate how old a film is.
+That is why, when we use the ++ operator to concatenate a string with something else, Elm demands that *something else* to also be a `List Char` (= `String`). So we could either change how we store the year and pass it in as a `String` so that we can concat strings easily, or we find a way to turn an `Int` into a `String`. The first way may look easier, but it might be quite annoying later on when we want to e.g. calculate how old a film is - in this case we will definitly want the year to be a number, not a string.
 
 Luckily, there exists a way to convert `Int`s to `String`s in the base library: the function `toString`. Let's use it:
 
@@ -252,9 +253,9 @@ formatMovieString title year =
 	title ++ " (" ++ (toString year) ++ ")"
 ```
 
-The function toString turns an `Int` into a `String` (the signature is: `Int -> String`) and is exactly what we need here. Again, we use parenthesis to make it clear that we want to concat the result of `toString year`.
+The function toString turns an `Int` into a `String` (the signature is: `toString : Int -> String`) and is exactly what we need here. Again, we use parenthesis to make it clear that we want to concat the result of `toString year`.
 
-This whole thing is now a little long and doesn't read very nicely. Could we store "toString year" somewhere and then reference to it by name? We can't extract it to a top level value because the year is an argument to our function. We could extract it into a "yearToString year =" function, but then we would still have to use parenthesis. Let's try something else:
+This whole thing is now a little long and doesn't read very nicely. Could we store the result of "toString year" somewhere and then reference to it by name? We can't extract it to a top level value because the year is an argument to our function. We could extract it into a "yearToString year =" function, but then we would still have to use parenthesis because it wouls still necessitate a function call. Let's try something else:
 
 ```Elm
 formatMovieString : String -> Int -> String
@@ -278,7 +279,7 @@ I am looking for one of the following things:
 
 This is one of the few cases where the usually fantastic error message of the Elm compiler are a bit harder to decipher. The key is that a function in elm has to evaluate to exactly one expression, and we gave it two - the definition for yearAsString and an expression that builds the string our formatMovieString function should evaluate to.
 
-To be able to do use a local named value, we need to use a special construct called let ... in. It allows us to give, a number of new, local definitions, each on a new line, between let and in that can then be used in the final expression. These local definitions can also be functions if you like. All these expressions are only visible inside the function, i.e. you would not be able to use `yearAsString` anywhere in the program outside the `formatMovieString` function. Here is what the definition with let ... in looks like:
+To be able to do use a local named value, we need to use a special construct called `let ... in`. It allows us to give a number of new, local definitions, each on a new line, between let and in that can then be used in the final expression. These local definitions can also be functions if you like. All these expressions are only visible inside the function, i.e. you would not be able to use `yearAsString` anywhere in the program outside the `formatMovieString` function. Here is what the definition with let ... in looks like:
 
 ```Elm
 formatMovieString : String -> Int -> String
@@ -289,4 +290,6 @@ formatMovieString title year =
 		title ++ " (" ++ yearAsString ++ ")"
 ```
 
-The line after in is what the function formatMovieString will actually evaluate to, and the stuff above, between let and in, are temporary definitions to increase the readability.
+The line after `in` is what the function formatMovieString will actually evaluate to, and the stuff above, between let and in, are temporary definitions to increase the readability.
+
+This is not all there is to functions in Elm, but these are the most important things to get started. In the next chapter, we will take a look at types - what they are, how to define our own and what forms they can take. In a later chapter we will return to functions and take a look at some more advanced concept like partial function application.
