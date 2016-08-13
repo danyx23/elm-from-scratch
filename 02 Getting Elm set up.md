@@ -65,7 +65,7 @@ It should work and generate a MovieSearch.js file for you. Now, create a file ca
      <div id="moviedomino"></div>
    </div>
  </body>
- <script src="elm-movie-domino.js"></script>
+ <script src="MovieSearch.js"></script>
  <script>
    var node = document.getElementById('moviedomino');
    var app = Elm.MovieDomino.embed(node);
