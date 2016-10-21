@@ -137,7 +137,7 @@ calculateYearsBetweenReleases movie1 movie2 =
 createDummyDocumentary : Movie -> Movie
 createDummyDocumentary movie =
 	{ movie
-  | title = movie ++ " - a Documentary"
+  | title = movie.title ++ " - a Documentary"
   , yearOfRelease = 2016
   }
 
